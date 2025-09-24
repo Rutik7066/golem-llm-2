@@ -460,11 +460,13 @@ pub struct SearchQuery {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[allow(dead_code)]
 pub struct MultiSearchQuery {
     pub searches: Vec<MultiSearchRequest>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[allow(dead_code)]
 pub struct MultiSearchRequest {
     pub collection: String,
     #[serde(flatten)]
@@ -527,6 +529,7 @@ pub struct RequestParams {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[allow(dead_code)]
 pub struct MultiSearchResponse {
     pub results: Vec<SearchResponse>,
 }
@@ -554,6 +557,7 @@ pub struct DeleteCollectionResponse {
 pub struct ListCollectionsResponse(pub Vec<CreateCollectionResponse>);
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[allow(dead_code)]
 pub struct IndexDocumentResponse {
     pub id: String,
 }

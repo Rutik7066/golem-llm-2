@@ -82,6 +82,7 @@ pub struct MeilisearchTask {
 pub type MeilisearchDocument = JsonMap<String, JsonValue>;
 
 #[derive(Debug, Serialize, Deserialize)]
+#[allow(dead_code)]
 pub struct MeilisearchDocumentsResponse {
     pub results: Vec<MeilisearchDocument>,
     pub offset: u32,
@@ -90,6 +91,7 @@ pub struct MeilisearchDocumentsResponse {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[allow(dead_code)]
 pub struct MeilisearchDocumentFetchRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub offset: Option<u32>,

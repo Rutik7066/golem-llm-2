@@ -10,11 +10,13 @@ use serde_json::{json, Map, Value};
 use std::collections::HashMap;
 
 #[derive(Deserialize, Debug)]
+#[allow(dead_code)]
 pub struct GremlinQueryResponse {
     pub _result: Option<GremlinQueryResult>,
 }
 
 #[derive(Deserialize, Debug)]
+#[allow(dead_code)]
 pub struct GremlinQueryResult {
     pub _data: Option<GraphSONValue>,
 }

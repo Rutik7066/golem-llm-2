@@ -178,6 +178,7 @@ pub struct CompletionsRequest {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
+#[allow(dead_code)]
 pub struct Format {
     #[serde(rename = "type")]
     pub format_type: String,
