@@ -49,7 +49,6 @@ mod durable_impl {
     use golem_rust::bindings::golem::durability::durability::DurableFunctionType;
     use golem_rust::durability::Durability;
     use golem_rust::{with_persistence_level, FromValueAndType, IntoValue, PersistenceLevel};
-    use std::fmt::{Display, Formatter};
 
     impl<Impl: ExtendedGuest> Guest for DurableEmbed<Impl> {
         fn generate(inputs: Vec<ContentPart>, config: Config) -> Result<EmbeddingResponse, Error> {
@@ -107,15 +106,6 @@ mod durable_impl {
         query: String,
         documents: Vec<String>,
         config: Config,
-    }
-
-    #[derive(Debug, FromValueAndType, IntoValue)]
-    struct UnusedError;
-
-    impl Display for UnusedError {
-        fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-            write!(f, "UnusedError")
-        }
     }
 
     impl From<&Error> for Error {
