@@ -117,17 +117,3 @@ pub struct EmbeddingData {
     pub embedding: Embedding,
     pub index: i32,
 }
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct OpenAIError {
-    pub error: OpenAIErrorDetails,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct OpenAIErrorDetails {
-    pub message: String,
-    #[serde(rename = "type")]
-    pub _type: String,
-    pub param: Option<String>,
-    pub code: Option<String>,
-}

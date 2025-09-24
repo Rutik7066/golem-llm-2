@@ -82,38 +82,4 @@ pub struct EmbeddingRequest {
     pub provider_params: HashMap<String, serde_json::Value>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TruncateDirection {
-    #[serde(rename = "left")]
-    Left,
-    #[serde(rename = "right")]
-    Right,
-}
-
 pub type EmbeddingResponse = Vec<Vec<f32>>;
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RerankRequest {
-    pub query: String,
-    pub documents: Vec<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub top_k: Option<u32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub return_documents: Option<bool>,
-
-    #[serde(flatten)]
-    pub provider_params: HashMap<String, serde_json::Value>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RerankResponse {
-    pub results: Vec<RerankResult>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RerankResult {
-    pub index: u32,
-    pub relevance_score: f32,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub document: Option<String>,
-}
