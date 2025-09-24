@@ -28,7 +28,7 @@ members = [
     "video/kling",
     "video/runway",
     "video/veo",
-    "video/stability",
+    "video/stability", 
     "exec/exec",
     "stt/stt",
     "stt/whisper",
@@ -36,6 +36,11 @@ members = [
     "stt/aws",
     "stt/azure",
     "stt/google",
+    "tts/tts", 
+    "tts/elevenlabs", 
+    "tts/polly", 
+    "tts/google", 
+    "tts/deepgram",
 ]
 
 [profile.release]
@@ -48,9 +53,11 @@ golem-llm = { path = "llm/llm", version = "0.0.0", default-features = false }
 golem-search = { path = "search/search", version = "0.0.0", default-features = false }
 golem-graph = { path = "graph/graph", version = "0.0.0", default-features = false }
 golem-video = { path = "video/video", version = "0.0.0", default-features = false }
+golem-tts = { path = "tts/tts", version = "0.0.0", default-features = false}
 golem-stt = { path = "stt/stt", version = "0.0.0", default-features = false }
 futures = "0.3.31"
-golem-rust = "=1.5.5"
+serde_urlencoded = "0.7.1"
+golem-rust = "1.6.0"
 log = "0.4.27"
 reqwest = { git = "https://github.com/golemcloud/reqwest", branch = "update-may-2025", features = [
     "json",
