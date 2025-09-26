@@ -114,7 +114,7 @@ impl TtsClient for Deepgram {
         voice: String,
         options: Option<SynthesisOptions>,
     ) -> Result<Vec<SynthesisResult>, TtsError> {
-        let mut results = Vec::new();
+        let mut results = Vec::with_capacity(inputs.len());
         for input in inputs {
             let result = self.synthesize(input, voice.clone(), options.clone())?;
             results.push(result);
