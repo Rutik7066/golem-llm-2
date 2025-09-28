@@ -1,19 +1,27 @@
 use golem_tts::{
     client::{ApiClient, TtsClient},
-    config::{get_env, get_parsed_env},
+    config::get_env,
     golem::tts::{
-        advanced::{LongFormOperation, PronunciationLexicon, TtsError}, streaming::{SynthesisStream, VoiceConversionStream}, synthesis::ValidationResult, types::{SynthesisMetadata, SynthesisResult, TextType}, voices::{GuestVoiceResults, LanguageInfo, Voice, VoiceResults}
+        advanced::{LongFormOperation, PronunciationLexicon, TtsError},
+        streaming::SynthesisStream,
+        synthesis::ValidationResult,
+        types::{SynthesisMetadata, SynthesisResult, TextType},
+        voices::{LanguageInfo, Voice, VoiceResults},
     },
     tts_stream::TtsStream,
 };
 use log::trace;
-use reqwest::{header::HeaderMap, Method};
+use reqwest::Method;
 use serde::Serialize;
 
 use crate::{
     error::{from_http_error, unsupported},
-    resources::{AwsLongFormOperation, AwsPronunciationLexicon, AwsVoiceConversionStream, AwsVoiceResults},
-    types::{GetLexiconResponse, ListVoiceParam, ListVoiceResponse, PutLexiconRequest, StartSpeechSynthesisTaskRequest, StartSpeechSynthesisTaskResponse, SynthesizeSpeechParams, SynthesizeSpeechResponse},
+    resources::{AwsLongFormOperation, AwsPronunciationLexicon, AwsVoiceResults},
+    types::{
+        GetLexiconResponse, ListVoiceParam, ListVoiceResponse, PutLexiconRequest,
+        StartSpeechSynthesisTaskRequest, StartSpeechSynthesisTaskResponse, SynthesizeSpeechParams,
+        SynthesizeSpeechResponse,
+    },
     utils::{create_pls_content, estimate_text_duration, parse_s3_location},
 };
 
@@ -81,7 +89,7 @@ impl TtsClient for Polly {
         golem_tts::golem::tts::streaming::VoiceConversionStream,
         golem_tts::golem::tts::types::TtsError,
     > {
-      unsupported("Voice conversion is not supported by AWS Polly")
+        unsupported("Voice conversion is not supported by AWS Polly")
     }
 
     fn synthesize(
@@ -194,7 +202,7 @@ impl TtsClient for Polly {
         golem_tts::golem::tts::synthesis::ValidationResult,
         golem_tts::golem::tts::types::TtsError,
     > {
-         let text = input.content;
+        let text = input.content;
         let mut warnings = Vec::new();
         let mut errors = Vec::new();
 
@@ -212,7 +220,6 @@ impl TtsClient for Polly {
             errors.push("Text cannot be empty".to_string());
         }
 
-        
         if voice.is_empty() {
             errors.push("Voice ID cannot be empty".to_string());
         }
@@ -236,12 +243,12 @@ impl TtsClient for Polly {
     ) -> Result<golem_tts::golem::tts::voices::VoiceResults, golem_tts::golem::tts::types::TtsError>
     {
         trace!("Listing available voices.");
-       let params = ListVoiceParam{
-        engine: filter.as_ref().and_then(|f| f.quality.clone()),
-        include_additional_language_codes: Some(true),
-        language_code:  filter.as_ref().map(|f| f.language.clone().unwrap()),
-        next_token: None,
-    };
+        let params = ListVoiceParam {
+            engine: filter.as_ref().and_then(|f| f.quality.clone()),
+            include_additional_language_codes: Some(true),
+            language_code: filter.as_ref().map(|f| f.language.clone().unwrap()),
+            next_token: None,
+        };
 
         let client = self.get_client::<()>("GET", "/v1/voices", None)?;
         let response = client.make_request::<ListVoiceResponse, (), ListVoiceParam, _>(
@@ -252,9 +259,6 @@ impl TtsClient for Polly {
             from_http_error,
         )?;
 
-
-
-
         Ok(VoiceResults::new(AwsVoiceResults::from(response)))
     }
 
@@ -262,8 +266,8 @@ impl TtsClient for Polly {
         &self,
         voice_id: String,
     ) -> Result<golem_tts::golem::tts::voices::Voice, golem_tts::golem::tts::types::TtsError> {
-         let client = self.get_client::<()>("GET", "/v1/voices", None)?;
-        let result = client.make_request::<ListVoiceResponse, (), (),_>(
+        let client = self.get_client::<()>("GET", "/v1/voices", None)?;
+        let result = client.make_request::<ListVoiceResponse, (), (), _>(
             Method::GET,
             "/v1/voices",
             (),
@@ -523,7 +527,7 @@ impl TtsClient for Polly {
 
         let mut client = self.get_client("POST", &put_path, Some(&body))?;
 
-        let _ = client.make_request::<(), PutLexiconRequest, (), _>(
+        client.make_request::<(), PutLexiconRequest, (), _>(
             Method::POST,
             &put_path,
             body,
@@ -533,7 +537,7 @@ impl TtsClient for Polly {
 
         let get_path = format!("/v1/lexicons/{}", name);
 
-         client = self.get_client::<()>("GET", &get_path, None)?;
+        client = self.get_client::<()>("GET", &get_path, None)?;
 
         let response = client.make_request::<GetLexiconResponse, (), (), _>(
             Method::GET,
@@ -560,7 +564,7 @@ impl TtsClient for Polly {
         golem_tts::golem::tts::advanced::LongFormOperation,
         golem_tts::golem::tts::types::TtsError,
     > {
-          let (bucket, key_prefix) = parse_s3_location(&output_location)?;
+        let (bucket, key_prefix) = parse_s3_location(&output_location)?;
         let body = StartSpeechSynthesisTaskRequest {
             text: content,
             engine: Some("long-form".to_string()),

@@ -1,8 +1,10 @@
 // Synthesis feature: durability and passthrough implementations
 
 use crate::durability::{DurableTTS, ExtendedGuest};
-use crate::golem::tts::synthesis::{Guest as SynthesisGuest, SynthesisOptions, SynthesisResult, ValidationResult};
 use crate::golem::tts::streaming::TimingInfo;
+use crate::golem::tts::synthesis::{
+    Guest as SynthesisGuest, SynthesisOptions, SynthesisResult, ValidationResult,
+};
 use crate::golem::tts::types::{TextInput, TtsError};
 use crate::golem::tts::voices::VoiceBorrow;
 use crate::init_logging;
@@ -57,8 +59,8 @@ mod passthrough_impl {
 #[cfg(feature = "durability")]
 mod durable_impl {
     use super::*;
-    use golem_rust::durability::Durability;
     use golem_rust::bindings::golem::durability::durability::DurableFunctionType;
+    use golem_rust::durability::Durability;
     use golem_rust::{with_persistence_level, PersistenceLevel};
 
     // Input payloads
@@ -142,7 +144,8 @@ mod durable_impl {
                 let result = with_persistence_level(PersistenceLevel::PersistNothing, || {
                     Impl::synthesize_batch(inputs.clone(), voice, options.clone())
                 });
-                let _ = durability.persist_infallible(SynthesizeBatchInput { inputs, options }, NoOutput);
+                let _ = durability
+                    .persist_infallible(SynthesizeBatchInput { inputs, options }, NoOutput);
                 result
             } else {
                 let _: NoOutput = durability.replay_infallible();
@@ -195,4 +198,3 @@ mod durable_impl {
         }
     }
 }
-

@@ -26,7 +26,6 @@ use crate::{
     },
 };
 
-
 pub mod elevenlabs;
 pub mod error;
 pub mod resources;

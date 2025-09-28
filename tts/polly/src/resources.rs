@@ -168,7 +168,7 @@ impl GuestVoiceResults for AwsVoiceResults {
             Some(&params),
             from_http_error,
         )?;
-        let voices = response.voices.iter().map(|v| VoiceInfo::from(v)).collect();
+        let voices = response.voices.iter().map(VoiceInfo::from).collect();
 
         *self.next_token.borrow_mut() = response.next_token;
 

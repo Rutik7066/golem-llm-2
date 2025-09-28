@@ -3,11 +3,11 @@
 use std::cell::RefCell;
 
 use crate::durability::{DurableTTS, ExtendedGuest};
+use crate::golem::tts::types::TtsError;
 use crate::golem::tts::voices::{
-    Guest as VoicesGuest, GuestVoiceResults, LanguageInfo, Voice, VoiceBorrow, VoiceFilter, VoiceInfo,
+    Guest as VoicesGuest, GuestVoiceResults, LanguageInfo, Voice, VoiceFilter, VoiceInfo,
     VoiceResults,
 };
-use crate::golem::tts::types::TtsError;
 use crate::init_logging;
 
 // ============================
@@ -52,8 +52,8 @@ mod passthrough_impl {
 #[cfg(feature = "durability")]
 mod durable_impl {
     use super::*;
-    use golem_rust::durability::Durability;
     use golem_rust::bindings::golem::durability::durability::DurableFunctionType;
+    use golem_rust::durability::Durability;
     use golem_rust::{with_persistence_level, PersistenceLevel};
 
     // Input payloads
@@ -292,9 +292,8 @@ mod durable_impl {
 
             if durability.is_live() {
                 // Fetch all results upfront for durability
-                let (voice_infos, has_more, total_count) = with_persistence_level(
-                    PersistenceLevel::PersistNothing,
-                    || {
+                let (voice_infos, has_more, total_count) =
+                    with_persistence_level(PersistenceLevel::PersistNothing, || {
                         let result = Impl::unwrapped_list_voices(filter.clone())?;
                         let mut all_results = Vec::new();
                         let temp_results = result;
@@ -312,8 +311,7 @@ mod durable_impl {
 
                         let total_count = temp_results.get_total_count();
                         Ok((all_results, has_more, total_count))
-                    },
-                )?;
+                    })?;
 
                 let unwrapped_result = UnwrappedVoiceResults {
                     voice_infos: voice_infos.clone(),
@@ -324,7 +322,9 @@ mod durable_impl {
                 durability.persist_infallible(ListVoicesInput { filter }, unwrapped_result);
 
                 Ok(VoiceResults::new(DurableVoiceResults::live(
-                    voice_infos, has_more, total_count,
+                    voice_infos,
+                    has_more,
+                    total_count,
                 )))
             } else {
                 let unwrapped_result: UnwrappedVoiceResults = durability.replay_infallible();
@@ -373,7 +373,8 @@ mod durable_impl {
                 let result = with_persistence_level(PersistenceLevel::PersistNothing, || {
                     Impl::search_voices(query.clone(), filter.clone())
                 });
-                durability.persist_infallible(SearchVoicesInput { query, filter }, result.clone())?;
+                durability
+                    .persist_infallible(SearchVoicesInput { query, filter }, result.clone())?;
                 result
             } else {
                 durability.replay_infallible()
@@ -401,4 +402,3 @@ mod durable_impl {
         }
     }
 }
-

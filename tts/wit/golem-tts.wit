@@ -273,7 +273,7 @@ interface synthesis {
         enable-timing: option<bool>,
         enable-word-timing: option<bool>,
         seed: option<u32>,
-        model: option<string>,
+        model-id: option<string>,
         context: option<synthesis-context>,
     }
 

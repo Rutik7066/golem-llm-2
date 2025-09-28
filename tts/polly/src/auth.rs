@@ -1,13 +1,5 @@
-use std::time::Duration;
-
-use golem_tts::{
-    config::{get_env, get_parsed_env},
-    golem::tts::types::TtsError,
-};
 use hmac::{Hmac, Mac};
-use log::trace;
-use reqwest::{header::HeaderMap, Client, Method};
-use serde::{de::DeserializeOwned, Serialize};
+use reqwest::header::HeaderMap;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::time::{SystemTime, UNIX_EPOCH};

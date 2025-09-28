@@ -1,14 +1,14 @@
 use std::cell::RefCell;
 
 use golem_tts::golem::tts::{
-    advanced::{PronunciationEntry, TtsError, Voice},
+    advanced::{PronunciationEntry, TtsError},
     types::VoiceGender,
-    voices::{VoiceFilter, VoiceInfo},
+    voices::VoiceInfo,
 };
 
 use crate::{
     resources::{AwsVoice, AwsVoiceResults},
-    types::{ListVoiceParam, ListVoiceResponse},
+    types::ListVoiceResponse,
 };
 
 impl From<ListVoiceResponse> for AwsVoiceResults {

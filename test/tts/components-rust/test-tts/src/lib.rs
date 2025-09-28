@@ -196,7 +196,7 @@ impl Guest for Component {
             enable_timing: None,
             enable_word_timing: None,
             seed: None,
-            model_version: None,
+            model_id: None,
             context: None,
         };
 
@@ -242,7 +242,7 @@ impl Guest for Component {
             enable_timing: None,
             enable_word_timing: None,
             seed: None,
-            model_version: None,
+            model_id: None,
             context: None,
         };
 

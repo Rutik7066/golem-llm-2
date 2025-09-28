@@ -15,8 +15,6 @@ pub fn from_http_error(response: Response) -> TtsError {
     }
 }
 
-
-
 pub fn unsupported<T>(msg: &str) -> Result<T, TtsError> {
     Err(TtsError::UnsupportedOperation(msg.to_string()))
 }

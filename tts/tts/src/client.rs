@@ -15,7 +15,7 @@ use crate::golem::tts::streaming::{
 };
 use crate::golem::tts::synthesis::{SynthesisResult, ValidationResult};
 use crate::golem::tts::types::TtsError;
-use crate::golem::tts::voices::{LanguageInfo, Voice, VoiceFilter, VoiceInfo, VoiceResults};
+use crate::golem::tts::voices::{LanguageInfo, Voice, VoiceFilter, VoiceResults};
 
 #[derive(Clone)]
 pub struct ApiClient {
@@ -207,7 +207,7 @@ impl ApiClient {
         method: Method,
         path: &str,
         body: B,
-          query_params: Option<&Q>,
+        query_params: Option<&Q>,
         handle_error: F,
     ) -> Result<Vec<u8>, TtsError>
     where
@@ -217,7 +217,7 @@ impl ApiClient {
 
         for attempt in 0..=self.rate_limit_config.max_retries {
             trace!("Retrying audio request. Attempt: #{attempt}");
-            match self.make_audio_request::<B, Q,&F>(
+            match self.make_audio_request::<B, Q, &F>(
                 method.clone(),
                 path,
                 body.clone(),

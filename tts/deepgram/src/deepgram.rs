@@ -1,8 +1,6 @@
-use std::{cell::RefCell, time::Duration};
-
 use golem_tts::{
-    client::{self, ApiClient, TtsClient},
-    config::{get_env, get_parsed_env},
+    client::{ApiClient, TtsClient},
+    config::get_env,
     golem::tts::{
         advanced::{
             AudioSample, LanguageCode, PronunciationEntry, PronunciationLexicon, Voice,
@@ -13,15 +11,13 @@ use golem_tts::{
         },
         synthesis::ValidationResult,
         types::{SynthesisMetadata, SynthesisResult, TtsError},
-        voices::{
-            GuestVoiceResults, LanguageInfo, VoiceFilter, VoiceGender, VoiceInfo, VoiceResults,
-        },
+        voices::{LanguageInfo, VoiceFilter, VoiceGender, VoiceResults},
     },
     tts_stream::TtsStream,
 };
 use log::trace;
-use reqwest::{header::HeaderMap, Client as HttpClient, Method};
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use reqwest::{header::HeaderMap, Method};
+use serde::{Deserialize, Serialize};
 
 use crate::{
     error::{from_http_error, unsupported},
@@ -179,7 +175,7 @@ impl TtsClient for Deepgram {
 
     fn list_voices(&self, filter: Option<VoiceFilter>) -> Result<VoiceResults, TtsError> {
         let path = "/v1/models";
-        let result = self.client.make_request::<ListVoiceResponse, (), (),_>(
+        let result = self.client.make_request::<ListVoiceResponse, (), (), _>(
             Method::GET,
             path,
             (),
@@ -226,7 +222,6 @@ impl TtsClient for Deepgram {
         Ok(Voice::new(voice))
     }
 
-    
     fn list_languages(&self) -> Result<Vec<golem_tts::golem::tts::voices::LanguageInfo>, TtsError> {
         // Hardcoded languages with actual voice counts from TTS provider
         // Voice counts based on actual available voices as of current data

@@ -2,9 +2,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::resources::GoogleVoice;
 
-
-
-
 #[derive(Serialize, Clone, Debug)]
 pub struct SynthesisRequest {
     pub input: SynthesisInput,
@@ -19,8 +16,6 @@ pub enum SynthesisInput {
     Text { text: String },
     Ssml { ssml: String },
 }
-
-
 
 #[derive(Serialize, Clone, Debug)]
 pub struct VoiceSelectionParams {
@@ -62,7 +57,6 @@ pub struct Timepoint {
     #[serde(rename = "timeSeconds")]
     pub time_seconds: f32,
 }
-
 
 #[derive(Deserialize)]
 pub struct ListVoicesResponse {

@@ -1,12 +1,17 @@
 use std::cell::RefCell;
 
-use golem_tts::golem::tts::{advanced::{GuestLongFormOperation, GuestPronunciationLexicon, LanguageCode, LongFormResult, OperationStatus, TtsError, Voice}, streaming::{AudioChunk, GuestVoiceConversionStream, VoiceSettings}, types::VoiceGender, voices::{GuestVoice, GuestVoiceResults, VoiceInfo}};
+use golem_tts::golem::tts::{
+    advanced::{
+        GuestLongFormOperation, GuestPronunciationLexicon, LanguageCode, LongFormResult,
+        OperationStatus, TtsError, Voice,
+    },
+    streaming::{AudioChunk, GuestVoiceConversionStream, VoiceSettings},
+    types::VoiceGender,
+    voices::{GuestVoice, GuestVoiceResults, VoiceInfo},
+};
 use serde::{Deserialize, Serialize};
 
 use crate::error::unsupported;
-
-
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeepgramVoice {
@@ -32,9 +37,6 @@ pub struct DeepgramVoiceMetadata {
     pub use_cases: Vec<String>,
 }
 
-
-
-
 impl GuestVoice for DeepgramVoice {
     #[doc = " Get voice identification"]
     fn get_id(&self) -> String {
@@ -42,7 +44,10 @@ impl GuestVoice for DeepgramVoice {
     }
 
     fn get_name(&self) -> String {
-        self.metadata.display_name.clone().unwrap_or_else(|| self.name.clone())
+        self.metadata
+            .display_name
+            .clone()
+            .unwrap_or_else(|| self.name.clone())
     }
 
     fn get_provider_id(&self) -> Option<String> {
@@ -51,7 +56,10 @@ impl GuestVoice for DeepgramVoice {
 
     #[doc = " Get voice characteristics"]
     fn get_language(&self) -> LanguageCode {
-        self.languages.first().cloned().unwrap_or_else(|| "en-US".to_string())
+        self.languages
+            .first()
+            .cloned()
+            .unwrap_or_else(|| "en-US".to_string())
     }
 
     fn get_additional_languages(&self) -> Vec<LanguageCode> {
@@ -123,10 +131,9 @@ pub struct DeepgramVoiceResults {
     pub total_count: RefCell<Option<u32>>,
 }
 
-
-impl  DeepgramVoiceResults {
+impl DeepgramVoiceResults {
     pub fn new(value: Vec<DeepgramVoice>) -> Self {
-        let voices: Vec<VoiceInfo> = value.iter().map(|v|VoiceInfo::from(v)).collect();
+        let voices: Vec<VoiceInfo> = value.iter().map(VoiceInfo::from).collect();
         let count = voices.len() as u32;
         Self {
             next_token: RefCell::new(None),
@@ -154,9 +161,6 @@ impl GuestVoiceResults for DeepgramVoiceResults {
         *self.total_count.borrow()
     }
 }
-
-
-
 
 pub struct DeepgramPronunciationLexicon;
 
@@ -213,17 +217,17 @@ pub struct DeepgramVoiceConversionStream;
 
 impl GuestVoiceConversionStream for DeepgramVoiceConversionStream {
     #[doc = " Send input audio chunks"]
-    fn send_audio(&self,_audio_data:Vec<u8>,) -> Result<(),TtsError> {
-       unsupported("Deepgram does not support voice conversion streaming")
-    }
-
-    #[doc = " Receive converted audio chunks"]
-    fn receive_converted(&self,) -> Result<Option<AudioChunk>,TtsError> {
+    fn send_audio(&self, _audio_data: Vec<u8>) -> Result<(), TtsError> {
         unsupported("Deepgram does not support voice conversion streaming")
     }
 
-    fn finish(&self,) -> Result<(),TtsError> {
-       unsupported("Deepgram does not support voice conversion streaming")
+    #[doc = " Receive converted audio chunks"]
+    fn receive_converted(&self) -> Result<Option<AudioChunk>, TtsError> {
+        unsupported("Deepgram does not support voice conversion streaming")
+    }
+
+    fn finish(&self) -> Result<(), TtsError> {
+        unsupported("Deepgram does not support voice conversion streaming")
     }
 
     fn close(&self) {}

@@ -18,8 +18,8 @@ use golem_tts::{
 };
 
 use crate::{
-    google::Google,
     error::unsupported,
+    google::Google,
     resources::{
         GoogleLongFormOperation, GooglePronunciationLexicon, GoogleVoice,
         GoogleVoiceConversionStream, GoogleVoiceResults,
@@ -27,8 +27,8 @@ use crate::{
 };
 
 pub mod auth;
-pub mod google;
 pub mod error;
+pub mod google;
 pub mod resources;
 pub mod types;
 pub mod utils;
@@ -125,7 +125,7 @@ impl VoicesGuest for GoogleTtsComponent {
         query: String,
         filter: Option<VoiceFilter>,
     ) -> Result<Vec<VoiceInfo>, TtsError> {
-      unsupported("Google does not supports voice searching use list_voices instead.")
+        unsupported("Google does not supports voice searching use list_voices instead.")
     }
 
     #[doc = " Get supported languages"]

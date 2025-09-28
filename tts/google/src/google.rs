@@ -1,9 +1,9 @@
 use base64::{engine::general_purpose, Engine};
 use golem_tts::{
     client::{ApiClient, TtsClient},
-    config::{get_env, get_parsed_env},
+    config::get_env,
     golem::tts::{
-        streaming::{SynthesisStream, Voice, VoiceConversionStream},
+        streaming::{SynthesisStream, Voice},
         synthesis::ValidationResult,
         types::{
             SynthesisMetadata, SynthesisResult, TextType, TimingInfo, TimingMarkType, TtsError,
@@ -13,19 +13,13 @@ use golem_tts::{
     tts_stream::TtsStream,
 };
 use log::trace;
-use reqwest::{Client, Method};
-use rsa::{pkcs8::DecodePrivateKey, RsaPrivateKey};
-use serde::{de::DeserializeOwned, Serialize};
-use std::{
-    collections::HashMap,
-    sync::{Arc, Mutex},
-    time::Duration,
-};
+use reqwest::Method;
+use std::sync::{Arc, Mutex};
 use wstd::http::HeaderMap;
 
 use crate::{
     error::{from_http_error, unsupported},
-    resources::{GoogleVoiceConversionStream, GoogleVoiceResults},
+    resources::GoogleVoiceResults,
     types::{
         AudioConfigData, ListVoicesResponse, SynthesisInput, SynthesisRequest, SynthesisResponse,
         VoiceSelectionParams,
@@ -33,13 +27,13 @@ use crate::{
     utils::{estimate_audio_duration, estimate_duration, split_into_sentences, strip_ssml_tags},
 };
 
-#[derive(Clone,Debug)]
+#[derive(Clone, Debug)]
 pub struct Google {
     pub base_url: String,
     pub token_data: Arc<Mutex<TokenData>>,
 }
 
-#[derive(Clone,Debug)]
+#[derive(Clone, Debug)]
 pub struct TokenData {
     pub access_token: Option<String>,
     pub expires_at: Option<i64>,
@@ -103,18 +97,18 @@ impl TtsClient for Google {
         };
 
         let client = self.get_client()?;
-   let result = client.retry_request::<ListVoicesResponse, (), (),_>(
+        let result = client.retry_request::<ListVoicesResponse, (), (), _>(
             Method::GET,
             "/v1/voices",
             (),
             None,
             from_http_error,
         )?;
-        let mut  google_voice = None;
+        let mut google_voice = None;
         for v in result.voices {
             if v.name == voice {
-                    google_voice = Some(v);
-                    break;
+                google_voice = Some(v);
+                break;
             }
         }
         if google_voice.is_none() {
@@ -157,7 +151,7 @@ impl TtsClient for Google {
             audio_config,
         };
         let client = self.get_client()?;
-        let response = client.retry_request::<SynthesisResponse, SynthesisRequest, (),_>(
+        let response = client.retry_request::<SynthesisResponse, SynthesisRequest, (), _>(
             Method::POST,
             "/v1/text:synthesize",
             body,
@@ -400,22 +394,22 @@ impl TtsClient for Google {
         filter: Option<golem_tts::golem::tts::voices::VoiceFilter>,
     ) -> Result<golem_tts::golem::tts::voices::VoiceResults, TtsError> {
         let client = self.get_client()?;
-        let result = client.retry_request::<ListVoicesResponse, (), (),_>(
+        let result = client.retry_request::<ListVoicesResponse, (), (), _>(
             Method::GET,
             "/v1/voices",
             (),
             None,
             from_http_error,
         )?;
-        
+
         let voice_infos: Vec<VoiceInfo> = result
-        .voices
-        .into_iter()
-        .map(|voice| VoiceInfo::from(&voice))
-        .collect();
-    
-    todo!("Add FIlters");
-    Ok(VoiceResults::new(GoogleVoiceResults::new(voice_infos)))
+            .voices
+            .into_iter()
+            .map(|voice| VoiceInfo::from(&voice))
+            .collect();
+
+        todo!("Add FIlters");
+        Ok(VoiceResults::new(GoogleVoiceResults::new(voice_infos)))
     }
 
     fn get_voice(
@@ -423,7 +417,7 @@ impl TtsClient for Google {
         voice_id: String,
     ) -> Result<golem_tts::golem::tts::voices::Voice, TtsError> {
         let client = self.get_client()?;
-        let result = client.retry_request::<ListVoicesResponse, (), (),_>(
+        let result = client.retry_request::<ListVoicesResponse, (), (), _>(
             Method::GET,
             "/v1/voices",
             (),
@@ -438,7 +432,6 @@ impl TtsClient for Google {
         Err(TtsError::VoiceNotFound(voice_id.to_string()))
     }
 
-   
     fn list_languages(&self) -> Result<Vec<golem_tts::golem::tts::voices::LanguageInfo>, TtsError> {
         Ok(vec![
             LanguageInfo {

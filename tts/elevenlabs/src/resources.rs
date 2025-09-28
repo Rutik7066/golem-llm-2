@@ -15,7 +15,7 @@ use golem_tts::{
     },
 };
 use log::trace;
-use reqwest::{ Client, InputStream, Method};
+use reqwest::{Client, Method};
 use serde::Deserialize;
 use uuid::Uuid;
 
@@ -23,8 +23,8 @@ use crate::{
     elevenlabs::Elevenlabs,
     error::{from_http_error, unsupported},
     types::{
-        AddRulesRequest, CreateLexiconResponse, ElVoiceSettings, ElVoices, ListVoicesQuery,
-        PronunciationRule, RemoveRulesRequest, UpdateLexiconRuleResponse, VerifiedLanguage,
+        AddRulesRequest, ElVoiceSettings, ElVoices, ListVoicesQuery, PronunciationRule,
+        RemoveRulesRequest, UpdateLexiconRuleResponse, VerifiedLanguage,
     },
     utils::{add_file_field, add_form_field},
 };
@@ -433,10 +433,7 @@ impl GuestPronunciationLexicon for ElPronunciationLexicon {
         let request = RemoveRulesRequest {
             rule_strings: vec![word],
         };
-        let path = format!(
-            "/v1/pronunciation-dictionaries/{}/remove-rules",
-            self.id
-        );
+        let path = format!("/v1/pronunciation-dictionaries/{}/remove-rules", self.id);
         let elevenlabs = Elevenlabs::new()?;
 
         let reuslt = elevenlabs
@@ -461,7 +458,8 @@ impl GuestPronunciationLexicon for ElPronunciationLexicon {
         let api_key = get_env("ELEVENLABS_API_KEY")?;
         let path = format!(
             "/v1/pronunciation-dictionaries/{}/{}/download",
-            self.id, self.version_id.borrow()
+            self.id,
+            self.version_id.borrow()
         );
         let url = format!("{}{}", base_url, path);
         let request = Client::new()

@@ -1,7 +1,11 @@
 // Root of the durability module
 // Keep public API stable here (DurableTTS, ExtendedGuest) so providers do not need to change imports
 
-use crate::golem::tts::{self, advanced::{TtsError, VoiceBorrow}, streaming::SynthesisOptions};
+use crate::golem::tts::{
+    self,
+    advanced::{TtsError, VoiceBorrow},
+    streaming::SynthesisOptions,
+};
 use std::marker::PhantomData;
 
 // Public wrapper type used by provider implementations

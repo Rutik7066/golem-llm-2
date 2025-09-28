@@ -2,10 +2,6 @@ use golem_tts::golem::tts::{types::VoiceGender, voices::VoiceInfo};
 
 use crate::resources::GoogleVoice;
 
-
-
-
-
 impl From<&GoogleVoice> for VoiceInfo {
     fn from(voice: &GoogleVoice) -> Self {
         VoiceInfo {
@@ -34,7 +30,6 @@ impl From<&GoogleVoice> for VoiceInfo {
     }
 }
 
-
 pub fn estimate_audio_duration(audio_data: &[u8], content_type: &str) -> f32 {
     // Estimate duration based on audio format and file size
     match content_type {
@@ -56,8 +51,6 @@ pub fn estimate_audio_duration(audio_data: &[u8], content_type: &str) -> f32 {
         }
     }
 }
-
-
 
 pub fn strip_ssml_tags(ssml: &str) -> String {
     let mut result = String::new();
@@ -114,7 +107,6 @@ pub fn split_into_sentences(text: &str) -> Vec<String> {
 
     sentences
 }
-
 
 pub fn estimate_duration(text: &str) -> f32 {
     // Estimate based on average speaking rate

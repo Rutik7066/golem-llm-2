@@ -1,35 +1,40 @@
 use std::cell::RefCell;
 
-use golem_tts::{client::TtsClient, golem::tts::{advanced::{GuestLongFormOperation, GuestPronunciationLexicon, LanguageCode, LongFormResult, OperationStatus, Voice}, streaming::{AudioChunk, GuestVoiceConversionStream, TextInput, VoiceSettings}, types::{TextType, TtsError, VoiceGender}, voices::{GuestVoice, GuestVoiceResults, VoiceInfo}}};
+use golem_tts::{
+    client::TtsClient,
+    golem::tts::{
+        advanced::{
+            GuestLongFormOperation, GuestPronunciationLexicon, LanguageCode, LongFormResult,
+            OperationStatus, Voice,
+        },
+        streaming::{AudioChunk, GuestVoiceConversionStream, TextInput, VoiceSettings},
+        types::{TextType, TtsError, VoiceGender},
+        voices::{GuestVoice, GuestVoiceResults, VoiceInfo},
+    },
+};
 use serde::Deserialize;
 
-use crate::{google::Google, error::unsupported};
+use crate::{error::unsupported, google::Google};
 
-
-
-
-pub  struct GoogleLongFormOperation;
-
+pub struct GoogleLongFormOperation;
 
 impl GuestLongFormOperation for GoogleLongFormOperation {
-    fn get_status(&self,) -> OperationStatus {
+    fn get_status(&self) -> OperationStatus {
         todo!()
     }
 
-    fn get_progress(&self,) -> f32 {
+    fn get_progress(&self) -> f32 {
         todo!()
     }
 
-    fn cancel(&self,) -> Result<(),TtsError> {
+    fn cancel(&self) -> Result<(), TtsError> {
         todo!()
     }
 
-    fn get_result(&self,) -> Result<LongFormResult,TtsError> {
+    fn get_result(&self) -> Result<LongFormResult, TtsError> {
         todo!()
     }
 }
-
-
 
 #[derive(Deserialize, Clone)]
 pub struct GoogleVoice {
@@ -41,8 +46,6 @@ pub struct GoogleVoice {
     #[serde(rename = "naturalSampleRateHertz")]
     pub natural_sample_rate_hertz: u32,
 }
-
-
 
 impl GuestVoice for GoogleVoice {
     fn get_id(&self) -> String {
@@ -126,8 +129,6 @@ impl GuestVoice for GoogleVoice {
     }
 }
 
-
-
 #[derive(Clone, Debug)]
 pub struct GoogleVoiceResults {
     voices: RefCell<Vec<VoiceInfo>>,
@@ -159,12 +160,8 @@ impl GuestVoiceResults for GoogleVoiceResults {
     }
 }
 
-
-
-
 #[derive(Clone)]
-pub struct GoogleVoiceConversionStream ;
-
+pub struct GoogleVoiceConversionStream;
 
 impl GuestVoiceConversionStream for GoogleVoiceConversionStream {
     #[doc = " Send input audio chunks"]

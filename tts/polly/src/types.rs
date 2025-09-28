@@ -2,9 +2,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::resources::AwsVoice;
 
-
-
-
 #[derive(Serialize, Clone)]
 pub struct SynthesizeSpeechParams {
     #[serde(rename = "Engine")]
@@ -35,7 +32,6 @@ pub struct SynthesizeSpeechResponse {
     #[serde(default)]
     pub request_characters: u32,
 }
-
 
 #[derive(Serialize, Clone)]
 pub struct PutLexiconRequest {
@@ -81,7 +77,6 @@ pub struct SpeechMark {
     pub end: Option<u32>,
     pub value: String,
 }
-
 
 #[derive(Deserialize, Debug)]
 pub struct GetLexiconResponse {
@@ -143,12 +138,10 @@ pub struct SynthesisTask {
     pub output_format: String,
 }
 
-
-
 #[derive(Serialize)]
 pub struct ListVoiceParam {
     #[serde(skip_serializing_if = "Option::is_none")]
-   pub engine: Option<String>,
+    pub engine: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub include_additional_language_codes: Option<bool>,
@@ -159,7 +152,6 @@ pub struct ListVoiceParam {
     pub next_token: Option<String>,
 }
 
-
 #[derive(Deserialize, Debug)]
 pub struct ListVoiceResponse {
     #[serde(rename = "NextToken")]
@@ -167,4 +159,3 @@ pub struct ListVoiceResponse {
     #[serde(rename = "Voices")]
     pub voices: Vec<AwsVoice>,
 }
-

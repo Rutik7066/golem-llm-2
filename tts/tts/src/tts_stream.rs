@@ -1,7 +1,12 @@
 use std::{cell::RefCell, collections::VecDeque};
 
-use crate::{client::TtsClient, golem::tts::{types::{TextType, TtsError}, streaming::{AudioChunk, GuestSynthesisStream, StreamStatus, SynthesisOptions, TextInput}}};
-
+use crate::{
+    client::TtsClient,
+    golem::tts::{
+        streaming::{AudioChunk, GuestSynthesisStream, StreamStatus, SynthesisOptions, TextInput},
+        types::{TextType, TtsError},
+    },
+};
 
 pub struct TtsStream<T: TtsClient> {
     pub client: T,
@@ -9,19 +14,19 @@ pub struct TtsStream<T: TtsClient> {
     pub options: Option<SynthesisOptions>,
     pub buffer: RefCell<String>,
     pub result: RefCell<VecDeque<u8>>,
-    pub is_active: RefCell<bool>,
     pub sequence_counter: RefCell<u32>,
+    pub is_active: RefCell<bool>,
 }
 impl<T: TtsClient> TtsStream<T> {
-    pub fn new(client:T, voice: String, options: Option<SynthesisOptions>) -> Self {
+    pub fn new(client: T, voice: String, options: Option<SynthesisOptions>) -> Self {
         Self {
             client,
             voice,
             options,
             buffer: RefCell::new(String::new()),
             result: RefCell::new(VecDeque::new()),
-            is_active: RefCell::new(true),
             sequence_counter: RefCell::new(0),
+            is_active: RefCell::new(true),
         }
     }
 }
@@ -43,8 +48,10 @@ impl<T: TtsClient> GuestSynthesisStream for TtsStream<T> {
                 text_type: TextType::Plain,
                 language: None,
             };
-            
-            let response = self.client.synthesize(input, self.voice.clone(), self.options.clone())?;
+
+            let response =
+                self.client
+                    .synthesize(input, self.voice.clone(), self.options.clone())?;
             let mut audio_buffer = self.result.borrow_mut();
             audio_buffer.extend(response.audio_data.iter());
         }
@@ -57,17 +64,14 @@ impl<T: TtsClient> GuestSynthesisStream for TtsStream<T> {
         if self.result.borrow().is_empty() {
             Ok(None)
         } else {
-            let mut buffer = self.result.borrow_mut();
-            let audio_data: Vec<u8> = buffer.drain(..).collect();
-            let is_final = !*self.is_active.borrow();
-            let mut counter = self.sequence_counter.borrow_mut();
-            let seq_num = *counter;
-            *counter += 1;
+            let audio_data: Vec<u8> = self.result.borrow_mut().drain(..1024).collect();
+            *self.sequence_counter.borrow_mut() = *self.sequence_counter.borrow() + 1;
+
             Ok(Some(AudioChunk {
                 data: audio_data,
-                sequence_number: seq_num,
+                sequence_number: *self.sequence_counter.borrow(),
                 timing_info: None,
-                is_final,
+                is_final: self.result.borrow().is_empty(),
             }))
         }
     }
