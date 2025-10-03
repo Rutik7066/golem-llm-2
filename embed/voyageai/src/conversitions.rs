@@ -36,7 +36,7 @@ pub fn create_embedding_request(
     let input_type = match config.task_type {
         Some(TaskType::RetrievalQuery) => Some(InputType::Query),
         Some(TaskType::RetrievalDocument) => Some(InputType::Document),
-        None => Some(InputType::Document),
+        None => None,
         _ => return Err(unsupported("task_type")),
     };
 

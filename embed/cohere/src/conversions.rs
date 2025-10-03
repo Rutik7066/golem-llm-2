@@ -57,16 +57,10 @@ pub fn create_embed_request(
             Some(TaskType::RetrievalDocument) => InputType::SearchDocument,
             Some(TaskType::Classification) => InputType::Classification,
             Some(TaskType::Clustering) => InputType::Clustering,
-            _ =>{
-                return Err(unsupported("task_type. Valid task type is required. Valid task types are retrieval-query, retrieval-document, classification, and clustering."));
-            },
+            None => InputType::SearchQuery,
+            _ => return Err(unsupported("task_type")),
         }
     } else {
-        if !image_inputs.is_empty() && !text_inputs.is_empty() {
-            return Err(unsupported(
-                "To use images and text together. Use Cohere's 'inputs' param using 'provider_options'. You can provide key 'inputs' and its value as string.",
-            ));
-        }
         InputType::Image
     };
 
