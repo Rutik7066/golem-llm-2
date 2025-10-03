@@ -335,7 +335,7 @@ interface streaming {
         /// Send text for synthesis (can be called multiple times)
         send-text: func(input: text-input) -> result<_, tts-error>;
         
-        /// Signal end of input and flush remaining audio
+        /// Signal end of input
         finish: func() -> result<_, tts-error>;
         
         /// Receive next audio chunk (non-blocking)

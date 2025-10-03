@@ -207,8 +207,9 @@ impl ExtendedGuest for DeepgramComponent {
     }
 
     fn unwrapped_create_sythesis_stream(
-        voice: VoiceBorrow<'_>,
+        voice_id: String,
         options: Option<SynthesisOptions>,
+        sequence_counter: Option<u32>,
     ) -> Result<Self::SynthesisStream, TtsError> {
         let google = Deepgram::new()?;
         let deepgram_voice = voice.get::<DeepgramVoice>().canonical_name.clone();

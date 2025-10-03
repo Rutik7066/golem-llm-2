@@ -30,14 +30,20 @@ pub trait ExtendedGuest:
         filter: Option<tts::voices::VoiceFilter>,
     ) -> Result<Self::VoiceResults, tts::types::TtsError>;
 
+
+    /// Synthesis streaming helper functoion to be used by the durable implementation. 
     fn unwrapped_create_sythesis_stream(
-        voice: VoiceBorrow<'_>,
+        voice_id: String,
         options: Option<SynthesisOptions>,
-    ) -> Result<Self::SynthesisStream, TtsError>;
+        sequence_counter:Option<u32>,
+    ) -> Self::SynthesisStream;
+
+
 }
 
+
 // Feature modules (private). They define impls and wrappers.
-mod advanced;
-mod streaming;
-mod synthesis;
-mod voices;
+pub mod advanced;
+pub mod streaming;
+pub mod synthesis;
+pub mod voices;
