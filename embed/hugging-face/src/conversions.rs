@@ -52,7 +52,7 @@ pub fn process_embedding_response(
     for (index, embedding_vec) in response.iter().enumerate() {
         embeddings.push(golem_embed::golem::embed::embed::Embedding {
             index: index as u32,
-            vector: golem_embed::golem::embed::embed::VectorData::FloatArray(embedding_vec.clone()),
+            vector: golem_embed::golem::embed::embed::VectorData::Float(embedding_vec.clone()),
         });
     }
 

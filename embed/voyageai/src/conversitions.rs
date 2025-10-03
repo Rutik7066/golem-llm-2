@@ -93,7 +93,7 @@ pub fn process_embedding_response(
             VoyageEmbedding::Float(data) => {
                 embeddings.push(Embedding {
                     index: embedding_data.index,
-                    vector: golem_embed::golem::embed::embed::VectorData::FloatArray(data),
+                    vector: golem_embed::golem::embed::embed::VectorData::Float(data),
                 });
             }
             VoyageEmbedding::Integer(data) => match output_dtype.unwrap() {

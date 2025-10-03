@@ -71,7 +71,7 @@ pub fn process_embedding_response(
             Embedding::Float32(embedding_vector) => {
                 embeddings.push(golem_embed::golem::embed::embed::Embedding {
                     index: embeding_data.index as u32,
-                    vector: VectorData::FloatArray(embedding_vector),
+                    vector: VectorData::Float(embedding_vector),
                 });
             }
         }

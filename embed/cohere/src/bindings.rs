@@ -10,8 +10,8 @@ use golem_embed::golem::embed::embed as __with_name0;
 )]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1352] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xc4\x09\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1346] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xbe\x09\x01A\x02\x01\
 A\x02\x01B3\x01m\x08\x0fretrieval-query\x12retrieval-document\x13semantic-simila\
 rity\x0eclassification\x0aclustering\x12question-answering\x11fact-verification\x0e\
 code-retrieval\x04\0\x09task-type\x03\0\0\x01m\x03\x0bfloat-array\x06binary\x06b\
@@ -25,19 +25,19 @@ e-limit-exceeded\x0einternal-error\x07unknown\x04\0\x0aerror-code\x03\0\x06\x01r
 task-type\x0f\x0adimensions\x10\x0atruncation\x11\x0doutput-format\x12\x0coutput\
 -dtype\x13\x04user\x0e\x10provider-options\x14\x04\0\x06config\x03\0\x15\x01r\x02\
 \x0cinput-tokens\x10\x0ctotal-tokens\x10\x04\0\x05usage\x03\0\x17\x01pv\x01p~\x01\
-p}\x01q\x06\x0bfloat-array\x01\x19\0\x04int8\x01\x1a\0\x05uint8\x01\x1b\0\x06bin\
-ary\x01\x1a\0\x07ubinary\x01\x1b\0\x06base64\x01s\0\x04\0\x0bvector-data\x03\0\x1c\
-\x01r\x02\x05indexy\x06vector\x1d\x04\0\x09embedding\x03\0\x1e\x01p\x1f\x01k\x18\
-\x01r\x04\x0aembeddings\x20\x05usage!\x05models\x16provider-metadata-json\x0e\x04\
-\0\x12embedding-response\x03\0\"\x01r\x03\x05indexy\x0frelevance-scorev\x08docum\
-ent\x0e\x04\0\x0drerank-result\x03\0$\x01p%\x01r\x04\x07results&\x05usage!\x05mo\
-dels\x16provider-metadata-json\x0e\x04\0\x0frerank-response\x03\0'\x01r\x03\x04c\
-ode\x07\x07messages\x13provider-error-json\x0e\x04\0\x05error\x03\0)\x01p\x0b\x01\
-j\x01#\x01*\x01@\x02\x06inputs+\x06config\x16\0,\x04\0\x08generate\x01-\x01ps\x01\
-j\x01(\x01*\x01@\x03\x05querys\x09documents.\x06config\x16\0/\x04\0\x06rerank\x01\
-0\x04\0\x17golem:embed/embed@1.0.0\x05\0\x04\0&golem:embed-cohere/embed-library@\
-1.0.0\x04\0\x0b\x13\x01\0\x0dembed-library\x03\0\0\0G\x09producers\x01\x0cproces\
-sed-by\x02\x0dwit-component\x070.227.1\x10wit-bindgen-rust\x060.41.0";
+p}\x01q\x06\x05float\x01\x19\0\x04int8\x01\x1a\0\x05uint8\x01\x1b\0\x06binary\x01\
+\x1a\0\x07ubinary\x01\x1b\0\x06base64\x01s\0\x04\0\x0bvector-data\x03\0\x1c\x01r\
+\x02\x05indexy\x06vector\x1d\x04\0\x09embedding\x03\0\x1e\x01p\x1f\x01k\x18\x01r\
+\x04\x0aembeddings\x20\x05usage!\x05models\x16provider-metadata-json\x0e\x04\0\x12\
+embedding-response\x03\0\"\x01r\x03\x05indexy\x0frelevance-scorev\x08document\x0e\
+\x04\0\x0drerank-result\x03\0$\x01p%\x01r\x04\x07results&\x05usage!\x05models\x16\
+provider-metadata-json\x0e\x04\0\x0frerank-response\x03\0'\x01r\x03\x04code\x07\x07\
+messages\x13provider-error-json\x0e\x04\0\x05error\x03\0)\x01p\x0b\x01j\x01#\x01\
+*\x01@\x02\x06inputs+\x06config\x16\0,\x04\0\x08generate\x01-\x01ps\x01j\x01(\x01\
+*\x01@\x03\x05querys\x09documents.\x06config\x16\0/\x04\0\x06rerank\x010\x04\0\x17\
+golem:embed/embed@1.0.0\x05\0\x04\0&golem:embed-cohere/embed-library@1.0.0\x04\0\
+\x0b\x13\x01\0\x0dembed-library\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0d\
+wit-component\x070.227.1\x10wit-bindgen-rust\x060.41.0";
 #[inline(never)]
 #[doc(hidden)]
 pub fn __link_custom_section_describing_imports() {

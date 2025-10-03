@@ -177,7 +177,7 @@ pub fn process_embedding_response(
         for (index, embedding) in emdeddings_array.iter().enumerate() {
             embeddings.push(Embedding {
                 index: index as u32,
-                vector: VectorData::FloatArray(embedding.clone()),
+                vector: VectorData::Float(embedding.clone()),
             });
         }
     };
